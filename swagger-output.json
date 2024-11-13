@@ -1059,9 +1059,10 @@
         }
       }
     },
-    "/{customer_id}/contacts": {
+    "/customers/{customer_id}/contacts": {
       "post": {
         "tags": ["Contact"],
+        "summary": "Create a new contact for a customer",
         "description": "Endpoint to create a contact of a customer.",
         "parameters": [
           {
@@ -1069,29 +1070,49 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
-            }
+              "type": "integer",
+              "example": 1
+            },
+            "description": "ID of the customer for whom the contact is being created"
           }
         ],
         "responses": {
-          "200": {
-            "description": "Successfully deleted the address",
+          "201": {
+            "description": "Contact created successfully",
             "content": {
               "application/json": {
                 "example": {
                   "status": "Success",
-                  "message": "Address deleted successfully"
+                  "message": "Contact created successfully",
+                  "data": {
+                    "contact": {
+                      "id": 1,
+                      "customerId": 1,
+                      "phoneNumber": "1234567890"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request due to validation error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "Validation error message"
                 }
               }
             }
           },
           "404": {
-            "description": "Address not found",
+            "description": "Customer not found",
             "content": {
               "application/json": {
                 "example": {
                   "status": "Failure",
-                  "message": "Address not found"
+                  "message": "Customer not found"
                 }
               }
             }
@@ -1102,22 +1123,25 @@
               "application/json": {
                 "example": {
                   "status": "Failure",
-                  "message": "An error occurred while deleting the address"
+                  "message": "Internal server error"
                 }
               }
             }
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "phoneNumber": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "+1234567890"
                   }
-                }
+                },
+                "required": ["phoneNumber"]
               }
             }
           }
