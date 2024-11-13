@@ -246,7 +246,7 @@
         }
       }
     },
-    "/{id}": {
+    "/customers/{id}": {
       "get": {
         "tags": ["Customer"],
         "description": "Endpoint to get a customer by its ID",
@@ -255,20 +255,103 @@
             "name": "id",
             "in": "path",
             "required": true,
+            "description": "The unique identifier of the customer.",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "example": 1
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Successfully retrieved customer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully retrieved customer"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "customer": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "description": "The unique identifier of the customer.",
+                              "example": 1
+                            },
+                            "firstName": {
+                              "type": "string",
+                              "description": "The first name of the customer.",
+                              "example": "John"
+                            },
+                            "lastName": {
+                              "type": "string",
+                              "description": "The last name of the customer.",
+                              "example": "Doe"
+                            },
+                            "email": {
+                              "type": "string",
+                              "description": "The email address of the customer.",
+                              "example": "john.doe@example.com"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Customer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Customer not found"
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal error"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
