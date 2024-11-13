@@ -586,9 +586,10 @@
         }
       }
     },
-    "/{customer_id}/addresses": {
+    "/customers/{customer_id}/addresses": {
       "post": {
         "tags": ["Address"],
+        "summary": "Create a new address for a customer",
         "description": "Endpoint to create an address.",
         "parameters": [
           {
@@ -596,43 +597,146 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
-            }
+              "type": "integer"
+            },
+            "description": "ID of the customer to associate with the address"
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Address successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Address successfully created"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "address": {
+                          "type": "object",
+                          "properties": {
+                            "street": {
+                              "type": "string",
+                              "example": "123 Main St"
+                            },
+                            "city": { "type": "string", "example": "Anytown" },
+                            "state": { "type": "string", "example": "CA" },
+                            "zipCode": { "type": "string", "example": "90210" },
+                            "customerId": { "type": "integer", "example": 1 },
+                            "createdAt": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-11-13T12:34:56Z"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-11-13T12:34:56Z"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Validation error message"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Customer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Customer not found"
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "street": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "123 Main St"
                   },
                   "city": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "Anytown"
                   },
                   "state": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "CA"
                   },
                   "zipCode": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "90210"
                   }
-                }
+                },
+                "required": ["street", "city", "state", "zipCode"]
               }
             }
           }
