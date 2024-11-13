@@ -165,12 +165,83 @@
       "get": {
         "tags": ["Customer"],
         "description": "Endpoint to get all customers",
+        "summary": "Retrieve all customers",
+        "description": "Fetch a list of all customers from the database.",
+        "operationId": "getAllCustomers",
+        "tags": ["Customer"],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Successfully retrieved all customers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully retrieved all customers"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "customers": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer",
+                                "description": "The unique identifier of the customer.",
+                                "example": 1
+                              },
+                              "firstName": {
+                                "type": "string",
+                                "description": "The first name of the customer.",
+                                "example": "John"
+                              },
+                              "lastName": {
+                                "type": "string",
+                                "description": "The last name of the customer.",
+                                "example": "Doe"
+                              },
+                              "email": {
+                                "type": "string",
+                                "description": "The email address of the customer.",
+                                "example": "john.doe@example.com"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal error"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
