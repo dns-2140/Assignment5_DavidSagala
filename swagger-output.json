@@ -1625,25 +1625,51 @@
       "delete": {
         "tags": ["Order"],
         "description": "Endpoint to delete an order of a customer.",
+        "summary": "Deletes the specified order.",
         "parameters": [
           {
             "name": "order_id",
             "in": "path",
             "required": true,
+            "description": "The ID of the order to be deleted",
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "Order successfully deleted",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Success",
+                  "message": "Order successfully deleted"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Order not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "Order not found"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "Internal error"
+                }
+              }
+            }
           }
         }
       }
