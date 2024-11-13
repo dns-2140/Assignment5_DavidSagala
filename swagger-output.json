@@ -1009,25 +1009,52 @@
       "delete": {
         "tags": ["Address"],
         "description": "Endpoint to to delete an address.",
+        "summary": "Delete an address by ID",
         "parameters": [
           {
             "name": "address_id",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
-            }
+              "type": "integer",
+              "example": 1
+            },
+            "description": "ID of the address to be deleted"
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
+          "200": {
+            "description": "Successfully deleted the address",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Success",
+                  "message": "Address deleted successfully"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Address not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "Address not found"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "An error occurred while deleting the address"
+                }
+              }
+            }
           }
         }
       }
@@ -1047,17 +1074,38 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
+          "200": {
+            "description": "Successfully deleted the address",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Success",
+                  "message": "Address deleted successfully"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Address not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "Address not found"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "An error occurred while deleting the address"
+                }
+              }
+            }
           }
         },
         "requestBody": {
