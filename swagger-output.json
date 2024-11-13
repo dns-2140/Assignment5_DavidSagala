@@ -848,9 +848,10 @@
         }
       }
     },
-    "/{address_id}": {
+    "/addresses/{address_id}": {
       "put": {
         "tags": ["Address"],
+        "summary": "Update an existing address for a specified customer",
         "description": "Endpoint to to update an address.",
         "parameters": [
           {
@@ -858,43 +859,148 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
-            }
+              "type": "integer",
+              "example": 1
+            },
+            "description": "ID of the address to be updated"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Successfully updated address",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Address updated successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "street": {
+                          "type": "string",
+                          "example": "123 Main St"
+                        },
+                        "city": {
+                          "type": "string",
+                          "example": "New York"
+                        },
+                        "state": {
+                          "type": "string",
+                          "example": "NY"
+                        },
+                        "zipCode": {
+                          "type": "string",
+                          "example": "10001"
+                        },
+                        "customerId": {
+                          "type": "string",
+                          "example": "1"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Validation error message"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Address not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Address not found"
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An error occurred while updating the address"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "street": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "123 Main St"
                   },
                   "city": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "New York"
                   },
                   "state": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "NY"
                   },
                   "zipCode": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "10001"
                   }
-                }
+                },
+                "additionalProperties": false
               }
             }
           }
