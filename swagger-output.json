@@ -164,11 +164,9 @@
       },
       "get": {
         "tags": ["Customer"],
-        "description": "Endpoint to get all customers",
         "summary": "Retrieve all customers",
         "description": "Fetch a list of all customers from the database.",
         "operationId": "getAllCustomers",
-        "tags": ["Customer"],
         "responses": {
           "200": {
             "description": "Successfully retrieved all customers",
@@ -249,6 +247,7 @@
     "/customers/{id}": {
       "get": {
         "tags": ["Customer"],
+        "summary": "Retrieve a customer by its ID.",
         "description": "Endpoint to get a customer by its ID",
         "parameters": [
           {
@@ -356,6 +355,7 @@
         }
       },
       "put": {
+        "summary": "Update an existing customer",
         "tags": ["Customer"],
         "description": "Endpoint to update a customer",
         "parameters": [
@@ -364,38 +364,141 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
-            }
+              "type": "integer"
+            },
+            "description": "ID of the customer to update"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Successfully updated customer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully updated customer"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "customer": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "description": "ID of the customer",
+                              "example": 1
+                            },
+                            "firstName": {
+                              "type": "string",
+                              "example": "Jane"
+                            },
+                            "lastName": {
+                              "type": "string",
+                              "example": "Doe"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "jane.doe@example.com"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Validation error in request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid input"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Customer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Customer not found"
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal error"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "firstName": {
-                    "example": "any"
+                    "type": "string",
+                    "description": "Updated first name of the customer",
+                    "example": "Jane"
                   },
                   "lastName": {
-                    "example": "any"
+                    "type": "string",
+                    "description": "Updated last name of the customer",
+                    "example": "Doe"
                   },
                   "email": {
-                    "example": "any"
+                    "type": "string",
+                    "description": "Updated email of the customer",
+                    "example": "jane.doe@example.com"
                   }
                 }
               }
