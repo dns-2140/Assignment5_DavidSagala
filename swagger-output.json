@@ -1460,69 +1460,162 @@
       "get": {
         "tags": ["Order"],
         "description": "Endpoint to get all orders of a customer.",
+        "summary": "Retrieves all orders for the specified customer.",
         "parameters": [
           {
             "name": "customer_id",
             "in": "path",
             "required": true,
+            "description": "The ID of the customer for whom the orders are being retrieved",
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Orders successfully retrieved",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Success",
+                  "message": "Orders retrieved successfully",
+                  "data": [
+                    {
+                      "id": 1,
+                      "orderNumber": "ORD123",
+                      "totalAmount": 100.0,
+                      "status": "pending",
+                      "orderDate": "2024-11-10"
+                    },
+                    {
+                      "id": 2,
+                      "orderNumber": "ORD124",
+                      "totalAmount": 200.0,
+                      "status": "shipped",
+                      "orderDate": "2024-11-11"
+                    }
+                  ]
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Customer not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "Customer not found"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "An error occurred while retrieving orders"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/{order_id}": {
+    "/orders/{order_id}": {
       "put": {
         "tags": ["Order"],
         "description": "Endpoint to update an order of a customer.",
+        "summary": "Updates the specified order with the provided data.",
         "parameters": [
           {
             "name": "order_id",
             "in": "path",
             "required": true,
+            "description": "The ID of the order to be updated",
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Order successfully updated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Success",
+                  "message": "Order successfully updated",
+                  "data": {
+                    "order": {
+                      "id": 1,
+                      "orderNumber": "ORD123",
+                      "totalAmount": 150.0,
+                      "status": "shipped",
+                      "orderDate": "2024-11-10"
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Invalid request body",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "\"status\" must be one of [pending, shipped, delivered, canceled]"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Order not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "Order not found"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "Internal error"
+                }
+              }
+            }
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "status": {
-                    "example": "any"
+                    "type": "string",
+                    "enum": ["pending", "shipped", "delivered", "canceled"]
                   },
                   "totalAmount": {
-                    "example": "any"
+                    "type": "number",
+                    "minimum": 0,
+                    "multipleOf": 0.01
                   }
+                },
+                "example": {
+                  "status": "shipped",
+                  "totalAmount": 150.0
                 }
               }
             }
