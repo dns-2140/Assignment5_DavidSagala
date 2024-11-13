@@ -11,12 +11,25 @@ module.exports = (sequelize, DataTypes) => {
       Address.belongsTo(models.Customer, { foreignKey: 'customerId' });
     }
   }
+
   Address.init(
     {
-      street: DataTypes.STRING,
-      city: DataTypes.STRING,
-      state: DataTypes.STRING,
-      zipCode: DataTypes.STRING,
+      street: {
+        type: DataTypes.STRING,
+        allowNull: false, // Ensure that street is not null
+      },
+      city: {
+        type: DataTypes.STRING,
+        allowNull: false, // Ensure that city is not null
+      },
+      state: {
+        type: DataTypes.STRING,
+        allowNull: false, // Ensure that state is not null
+      },
+      zipCode: {
+        type: DataTypes.STRING,
+        allowNull: false, // Ensure that zipCode is not null
+      },
       customerId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -30,7 +43,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Address',
-      timestamps: true,
     }
   );
   return Address;

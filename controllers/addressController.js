@@ -77,7 +77,7 @@ const createAddress = async (req, res) => {
       });
     }
     const { customer_id: customerId } = req.params;
-    const { street, city, state, zipCode, addressType } = req.body;
+    const { street, city, state, zipCode } = req.body;
 
     // Check if the customer exists
     const customer = await Customer.findByPk(customerId);
@@ -94,7 +94,6 @@ const createAddress = async (req, res) => {
       city,
       state,
       zipCode,
-      addressType,
       customerId, // Associate the address with the customer
     });
 
