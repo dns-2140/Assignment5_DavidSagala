@@ -509,25 +509,79 @@
       "delete": {
         "tags": ["Customer"],
         "description": "Endpoint to delete a customer",
+        "summary": "Delete a customer by ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
-            }
+              "type": "integer",
+              "example": 1
+            },
+            "description": "ID of the customer to delete"
           }
         ],
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "Successfully deleted customer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully deleted customer"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Customer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Customer not found"
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal error"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
