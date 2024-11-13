@@ -11,7 +11,6 @@ router.post(
   '/',
   // #swagger.tags = ['Customer']
   // #swagger.description = 'Endpoint to create a customer'
-
   createCustomer
 );
 

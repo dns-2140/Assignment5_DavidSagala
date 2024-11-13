@@ -6,9 +6,29 @@ const {
   deleteContact,
 } = require('../controllers/contactController');
 
-router.post('/:customer_id/contacts', createContact);
-router.get('/:customer_id/contacts', getAllContacts);
-router.put('/:contact_id', updateContact);
-router.delete('/:contact_id', deleteContact);
+router.post(
+  '/:customer_id/contacts',
+  // #swagger.tags = ['Contact']
+  // #swagger.description = 'Endpoint to create a contact of a customer.'
+  createContact
+);
+router.get(
+  '/:customer_id/contacts',
+  // #swagger.tags = ['Contact']
+  // #swagger.description = 'Endpoint to get all contacts of a customer.'
+  getAllContacts
+);
+router.put(
+  '/:contact_id',
+  // #swagger.tags = ['Contact']
+  // #swagger.description = 'Endpoint to update a contact of a customer.'
+  updateContact
+);
+router.delete(
+  '/:contact_id',
+  // #swagger.tags = ['Contact']
+  // #swagger.description = 'Endpoint to delete a contact of a customer.'
+  deleteContact
+);
 
 module.exports = router;
