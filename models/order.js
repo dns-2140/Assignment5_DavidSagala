@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Order.belongsTo(models.Customer, {
         foreignKey: 'customerId',
-        onDelete: 'CASCADE',
+        onDelete: 'CASCADE', // This ensures that if the associated customer is deleted, their orders are also deleted
       });
     }
   }
@@ -47,7 +47,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Order',
-      timestamps: true,
     }
   );
   return Order;
