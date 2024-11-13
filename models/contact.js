@@ -2,11 +2,6 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Contact extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       Contact.belongsTo(models.Customer, {
         foreignKey: 'customerId',
@@ -14,24 +9,28 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
+
   Contact.init(
     {
-      phoneNumber: DataTypes.STRING,
+      phoneNumber: {
+        type: DataTypes.STRING,
+        allowNull: false, // Ensures that phoneNumber cannot be null
+      },
       customerId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: 'Customers', // Reference to the Customer model
-          key: 'id', // The primary key in the Customer model
+          model: 'Customers',
+          key: 'id',
         },
-        onDelete: 'CASCADE', // If a Customer is deleted, also delete related Contacts
+        onDelete: 'CASCADE', // Cascade delete if Customer is deleted
       },
     },
     {
       sequelize,
       modelName: 'Contact',
-      timestamps: true,
     }
   );
+
   return Contact;
 };
