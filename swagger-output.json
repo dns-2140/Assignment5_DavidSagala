@@ -1150,66 +1150,149 @@
       "get": {
         "tags": ["Contact"],
         "description": "Endpoint to get all contacts of a customer.",
+        "summary": "Retrieve all contacts for a specific customer",
         "parameters": [
           {
             "name": "customer_id",
             "in": "path",
             "required": true,
+            "description": "The ID of the customer whose contacts are to be retrieved",
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Successfully retrieved contacts for the customer",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Success",
+                  "message": "Contacts retrieved successfully",
+                  "data": [
+                    {
+                      "id": 1,
+                      "phone": "123-456-7890",
+                      "email": "contact@example.com",
+                      "address": "123 Main St"
+                    },
+                    {
+                      "id": 2,
+                      "phone": "987-654-3210",
+                      "email": "another@example.com",
+                      "address": "456 Elm St"
+                    }
+                  ]
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Customer not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "Customer not found"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "An error occurred while retrieving contacts"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/{contact_id}": {
+    "/contacts/{contact_id}": {
       "put": {
         "tags": ["Contact"],
         "description": "Endpoint to update a contact of a customer.",
+        "summary": "Update a contact's details",
         "parameters": [
           {
             "name": "contact_id",
             "in": "path",
             "required": true,
+            "description": "The ID of the contact to be updated",
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Successfully updated the contact",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Success",
+                  "message": "Contact updated successfully",
+                  "data": {
+                    "id": 1,
+                    "phoneNumber": "9876543210"
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad request due to validation error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "Phone number is required"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Contact not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "Contact not found"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "An error occurred while updating the contact"
+                }
+              }
+            }
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "phoneNumber": {
-                    "example": "any"
+                    "type": "string",
+                    "description": "The phone number of the contact"
                   }
+                },
+                "example": {
+                  "phoneNumber": "9876543210"
                 }
               }
             }
@@ -1219,30 +1302,57 @@
       "delete": {
         "tags": ["Contact"],
         "description": "Endpoint to delete a contact of a customer.",
+        "summary": "Delete a contact by ID",
         "parameters": [
           {
             "name": "contact_id",
             "in": "path",
             "required": true,
+            "description": "The ID of the contact to be deleted",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "Successfully deleted the contact",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Success",
+                  "message": "Contact deleted successfully"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Contact not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "Contact not found"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "An error occurred while deleting the contact"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/{customer_id}/orders": {
+    "/customers/{customer_id}/orders": {
       "post": {
         "tags": ["Order"],
         "description": "Endpoint to create an order.",
