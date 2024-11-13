@@ -744,26 +744,106 @@
       },
       "get": {
         "tags": ["Address"],
+        "summary": "Retrieve all addresses for a specified customer",
         "description": "Endpoint to get all addresses of a customer",
         "parameters": [
           {
-            "name": "customer_id",
             "in": "path",
+            "name": "customer_id",
             "required": true,
             "schema": {
-              "type": "string"
-            }
+              "type": "integer",
+              "example": 1
+            },
+            "description": "ID of the customer to retrieve addresses for"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Addresses retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Addresses retrieved successfully"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "street": {
+                            "type": "string",
+                            "example": "123 Main St"
+                          },
+                          "city": { "type": "string", "example": "Anytown" },
+                          "state": { "type": "string", "example": "CA" },
+                          "zipCode": { "type": "string", "example": "90210" },
+                          "customerId": { "type": "integer", "example": 1 },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2024-11-13T12:34:56Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2024-11-13T12:34:56Z"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Customer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Customer not found"
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An error occurred while retrieving addresses"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
