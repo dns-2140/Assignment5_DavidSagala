@@ -15,34 +15,146 @@
       "post": {
         "tags": ["Customer"],
         "description": "Endpoint to create a customer",
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "409": {
-            "description": "Conflict"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
+        "summary": "Create a new customer",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "firstName": {
-                    "example": "any"
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 30,
+                    "description": "The first name of the customer (3-30 characters).",
+                    "example": "John"
                   },
                   "lastName": {
-                    "example": "any"
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 30,
+                    "description": "The last name of the customer (3-30 characters).",
+                    "example": "Doe"
                   },
                   "email": {
-                    "example": "any"
+                    "type": "string",
+                    "format": "email",
+                    "description": "The email address of the customer.",
+                    "example": "john.doe@example.com"
+                  }
+                },
+                "required": ["firstName", "lastName", "email"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created a customer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully created a customer"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "customer": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "description": "The unique identifier of the customer.",
+                              "example": 1
+                            },
+                            "firstName": {
+                              "type": "string",
+                              "description": "The first name of the customer.",
+                              "example": "John"
+                            },
+                            "lastName": {
+                              "type": "string",
+                              "description": "The last name of the customer.",
+                              "example": "Doe"
+                            },
+                            "email": {
+                              "type": "string",
+                              "description": "The email address of the customer.",
+                              "example": "john.doe@example.com"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The email provided is already registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The email provided is already registered"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request due to validation failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The firstName field is required."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Failure"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal error"
+                    }
                   }
                 }
               }
