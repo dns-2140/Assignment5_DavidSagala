@@ -1356,49 +1356,102 @@
       "post": {
         "tags": ["Order"],
         "description": "Endpoint to create an order.",
+        "summary": "Create a new order for a customer",
         "parameters": [
           {
             "name": "customer_id",
             "in": "path",
             "required": true,
+            "description": "The ID of the customer to create the order for",
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Order successfully created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Success",
+                  "message": "Order created successfully",
+                  "data": {
+                    "order": {
+                      "id": 1,
+                      "orderNumber": "ORD123",
+                      "totalAmount": 100.0,
+                      "status": "pending",
+                      "orderDate": "2024-11-10"
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad request – validation failed",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "Total amount is required"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Customer not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "Customer not found"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Failure",
+                  "message": "Internal server error"
+                }
+              }
+            }
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "orderNumber": {
-                    "example": "any"
+                    "type": "string",
+                    "description": "The order number"
                   },
                   "totalAmount": {
-                    "example": "any"
+                    "type": "number",
+                    "format": "float",
+                    "description": "The total amount for the order"
                   },
                   "status": {
-                    "example": "any"
+                    "type": "string",
+                    "enum": ["pending", "shipped", "delivered", "canceled"],
+                    "default": "pending",
+                    "description": "The current status of the order"
                   },
                   "orderDate": {
-                    "example": "any"
+                    "type": "string",
+                    "format": "date",
+                    "description": "The date the order was placed"
                   }
-                }
+                },
+                "required": ["orderNumber", "totalAmount"]
               }
             }
           }
