@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a robust and scalable backend API built with **Node.js**, **Express.js**, and **Sequelize ORM**. The project incorporates several modern development tools and libraries to ensure a high level of performance, maintainability, and security.
+This is a robust and scalable backend API built with **Node.js**, **Express.js**, and **Sequelize ORM**. The project incorporates several modern development tools and libraries to ensure a high level of performance, maintainability, and security. Additionally, the app utilizes Swagger for auto-generating interactive API documentation, allowing developers to explore and test the API endpoints with ease.
 
 ### Main Packages Used:
 
